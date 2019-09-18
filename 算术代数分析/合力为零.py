@@ -28,11 +28,10 @@ def 角坐标力(
 
 
 def 合力为零(
-    力: array, 位置: array, eps: float = 10 ** -1
+    力: array, 位置: array, 精度: float = 10 ** -1
 ) -> bool:
     """
     检查系统是否处于平衡状态。它需要两个 numpy 数组对象。
-    eps 指定精度
     力 ==>  [
                         [force1_x, force1_y],
                         [force2_x, force2_y],
@@ -49,7 +48,7 @@ def 合力为零(
     # 计算力矩之和是否为零
     力矩: array = cross(位置, 力)    # 两个向量的叉乘, 运算结果是一个向量。此处计算每一对 (force_x*y - force_y*x)
     合力矩: float = sum(力矩)   # 
-    return abs(合力矩) < eps
+    return abs(合力矩) < 精度
 
 
 if __name__ == "__main__":
