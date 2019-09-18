@@ -1,6 +1,6 @@
 import math
 
-def intersection(function,x0,x1): #function is the f we want to find its root and x0 and x1 are two random starting points
+def intersection(function,x0,x1): # 函数是f,我们想要找到它的根,x0和x1是两个随机的起始点
     x_n = x0
     x_n1 = x1
     while True:
