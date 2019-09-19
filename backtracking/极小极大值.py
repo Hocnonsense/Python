@@ -12,7 +12,7 @@ from math import log, inf
     beta 是对手做出的对你最坏的决定
 """
     
-def minimax(剩余步数: int, alpha = -inf, beta = inf, 局面: int = 0): 
+def 极小极大值(剩余步数: int, alpha = -inf, beta = inf, 局面: int = 0): 
     """
         调用时不需要用到 当前步数, 行动 两个变量. 
     """
@@ -22,7 +22,7 @@ def minimax(剩余步数: int, alpha = -inf, beta = inf, 局面: int = 0):
     else:
         行动 = 可选行动(局面)
         for 当前局面 in 行动:
-            当前收益 = - minimax(剩余步数 - 1, -beta, -alpha, 当前局面) #从递归中返回时简单地对返回值取了负数。这样就使函数值在每一次递归中改变评价的角度，以反映双方的交替行动，并且它们的目标是对立的
+            当前收益 = - 极小极大值(剩余步数 - 1, -beta, -alpha, 当前局面) #从递归中返回时简单地对返回值取了负数。这样就使函数值在每一次递归中改变评价的角度，以反映双方的交替行动，并且它们的目标是对立的
             print(剩余步数, 当前收益, alpha, beta, 局面)
 
             if 当前收益 >= beta: return beta    # 剪枝
@@ -45,6 +45,6 @@ def 判断收益(行动):
 
 if __name__ == "__main__": 
     最大步数 = 3 
-    结果 = - minimax(最大步数)
+    结果 = - 极小极大值(最大步数)
     print("最优值是: ", 结果) 
 
