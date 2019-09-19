@@ -127,8 +127,7 @@ def 显示答案(答案):
 
 if __name__ == "__main__":
 
-    # make a copy of 网格 so that you can compare with the unmodified 网格
     for 网格 in (数独示例, 无解数独示例):
-        网格 = list(map(list, 网格))
+        网格 = list(map(list, 网格))    # 拷贝未处理的数独, 方便对比
         答案 = 数独(网格)
         显示答案(答案)
