@@ -1,28 +1,50 @@
-import math 
+from math import log, inf
+"""
+    在一场两个人的零和博弈中, 甲方的最大收益, 就是乙方的最大损失. 
+    极小极大值通过检查所有可能的动作来帮助玩家在游戏中获得最大的分数
+    我方利益最大化, 当我行动时为 True, 故取最大值; 对方为 False, 故取最小值
+    剩余步数指代做出决策时假设的双方的行动步数, 时间复杂度: O(2^n)
+    当前步数: pass。
+    这里的行动用二叉树表示, 行动收益保存在 判断收益(行动) 中. 游戏树的叶子以分数的形式存储
 
-''' Minimax helps to achieve maximum score in a game by checking all possible moves
-    depth is current depth in game tree. 
-    nodeIndex is index of current node in scores[].
-    if move is of maximizer return true else false
-    leaves of game tree is stored in scores[]  
-    height is maximum height of Game tree
-'''
+    如果行动可以有3个以上的选择, 还可以使用 Alpha-Beta搜索 进行剪枝
+    alpha 是你可以做出的最好的决定
+    beta 是对手做出的对你最坏的决定
+"""
+    
+def minimax(剩余步数: int, alpha = -inf, beta = inf, 局面: int = 0): 
+    """
+        调用时不需要用到 当前步数, 行动 两个变量. 
+    """
+    if 剩余步数 == 0:  
+        print(判断收益(局面))
+        return 判断收益(局面) 
+    else:
+        行动 = 可选行动(局面)
+        for 当前局面 in 行动:
+            当前收益 = - minimax(剩余步数 - 1, -beta, -alpha, 当前局面) #从递归中返回时简单地对返回值取了负数。这样就使函数值在每一次递归中改变评价的角度，以反映双方的交替行动，并且它们的目标是对立的
+            print(剩余步数, 当前收益, alpha, beta, 局面)
 
-def minimax (Depth, nodeIndex, isMax, scores, height):  
+            if 当前收益 >= beta: return beta    # 剪枝
 
-    if Depth == height:  
-        return scores[nodeIndex] 
+            if 当前收益 > alpha:
+                alpha = 当前收益
+        return alpha
 
-    if isMax: 
-        return (max(minimax(Depth + 1, nodeIndex * 2, False, scores, height),
-                    minimax(Depth + 1, nodeIndex * 2 + 1, False, scores, height))) 
-    return (min(minimax(Depth + 1, nodeIndex * 2, True, scores, height), 
-               minimax(Depth + 1, nodeIndex * 2 + 1, True, scores, height))) 
+def 可选行动(局面):
+    行动 = list()
+    for i in range(3):
+        行动.append(局面*3+i)
+    return 行动
+
+def 判断收益(行动):
+    分数 = [90, 23, 6, 33, 21, 65, 123, 34423, 20, 106, 133, 1369, 162, 1, 22244, 22, 124, 2154, 52, 202, 4, 74238, 15, 180, 8213, 175, 11]
+    return 分数[行动]
+
+
 
 if __name__ == "__main__": 
- 
-    scores = [90, 23, 6, 33, 21, 65, 123, 34423] 
-    height = math.log(len(scores), 2) 
+    最大步数 = 3 
+    结果 = - minimax(最大步数)
+    print("最优值是: ", 结果) 
 
-    print("Optimal value : ", end = "") 
-    print(minimax(0, 0, True, scores, height)) 
