@@ -1,9 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\arithmetic_analysis",
-    "\\arithmetic_analysis\\image_data"
+    "\\boolean_algebra"
   ],
-  "SelectedNode": "\\arithmetic_analysis\\newton_method.py",
+  "SelectedNode": "\\boolean_algebra\\quine_mc_cluskey.py",
   "PreviewInSolutionExplorer": false
 }
