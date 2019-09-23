@@ -1,5 +1,5 @@
 import random, sys, os
-import rabin_miller as rabinMiller, cryptomath_module as cryptoMath
+import rabin_miller as rabinMiller, 密码数学模块 as 密码数学
 
 def main():
     print('Making key files...')
@@ -16,11 +16,11 @@ def generateKey(keySize):
     print('Generating e that is relatively prime to (p - 1) * (q - 1)...')
     while True:
         e = random.randrange(2 ** (keySize - 1), 2 ** (keySize))
-        if cryptoMath.gcd(e, (p - 1) * (q - 1)) == 1:
+        if 密码数学.最小公约数(e, (p - 1) * (q - 1)) == 1:
             break
 
     print('Calculating d that is mod inverse of e...')
-    d = cryptoMath.findModInverse(e, (p - 1) * (q - 1))
+    d = 密码数学.求模逆(e, (p - 1) * (q - 1))
 
     publicKey = (n, e)
     privateKey = (n, d)

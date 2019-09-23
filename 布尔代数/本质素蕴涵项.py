@@ -157,5 +157,5 @@ def 本质素蕴涵项():
 
 if __name__ == '__main__':
     from doctest import testmod
-    testmod()   # 直接导致无法显示中文字符
+    testmod()   # 直接导致input()无法显示中文字符
     本质素蕴涵项()

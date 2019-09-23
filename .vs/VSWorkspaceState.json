@@ -1,8 +1,16 @@
 {
   "ExpandedNodes": [
     "",
-    "\\boolean_algebra"
+    "\\ciphers",
+    "\\compression",
+    "\\compression\\image_data",
+    "\\conversions",
+    "\\data_structures",
+    "\\data_structures\\queue",
+    "\\data_structures\\stacks",
+    "\\data_structures\\trie",
+    "\\布尔代数"
   ],
-  "SelectedNode": "\\boolean_algebra\\quine_mc_cluskey.py",
+  "SelectedNode": "\\布尔代数\\本质素蕴涵项.py",
   "PreviewInSolutionExplorer": false
 }

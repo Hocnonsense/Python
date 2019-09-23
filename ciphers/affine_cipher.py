@@ -1,44 +1,32 @@
-import sys, random, cryptomath_module as cryptoMath
+import sys, random
+import 密码数学模块 as 密码数学
 
 SYMBOLS = r""" !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~"""
 
-def main():
-    message = input('Enter message: ')
-    key = int(input('Enter key [2000 - 9000]: '))
-    mode = input('Encrypt/Decrypt [E/D]: ')
-
-    if mode.lower().startswith('e'):
-              mode = 'encrypt'
-              translated = encryptMessage(key, message)
-    elif mode.lower().startswith('d'):
-              mode = 'decrypt'
-              translated = decryptMessage(key, message)
-    print('\n%sed text: \n%s' % (mode.title(), translated))
-
-def getKeyParts(key):
-    keyA = key // len(SYMBOLS)
-    keyB = key % len(SYMBOLS)
+def 分解密钥(密钥):
+    keyA = 密钥 // len(SYMBOLS)
+    keyB = 密钥 % len(SYMBOLS)
     return (keyA, keyB)
 
-def checkKeys(keyA, keyB, mode):
-    if keyA == 1 and mode == 'encrypt':
-        sys.exit('The affine cipher becomes weak when key A is set to 1. Choose different key')
-    if keyB == 0 and mode == 'encrypt':
-        sys.exit('The affine cipher becomes weak when key A is set to 1. Choose different key')
-    if keyA < 0 or keyB < 0 or keyB > len(SYMBOLS) - 1:
-        sys.exit('Key A must be greater than 0 and key B must be between 0 and %s.' % (len(SYMBOLS) - 1))
-    if cryptoMath.gcd(keyA, len(SYMBOLS)) != 1:
-        sys.exit('Key A %s and the symbol set size %s are not relatively prime. Choose a different key.' % (keyA, len(SYMBOLS)))
+def 检查密钥(keyA, keyB, 模式):
+    if keyA == 1 and 模式 == '加密':
+        sys.exit('密钥 A 为 1 会降低加密强度. 请换一个密钥')
+    elif keyB == 0 and 模式 == '加密':
+        sys.exit('密钥 B 为 0 会降低加密强度. 请换一个密钥')
+    elif keyA < 0 or keyB < 0 or keyB > len(SYMBOLS) - 1:
+        sys.exit('密钥 A 必须是大于 0 的整数, 且密钥 B 必须在 0 到 ' + (len(SYMBOLS) - 1) + ' 之间')
+    elif 密码数学.最小公约数(keyA, len(SYMBOLS)) != 1:
+        sys.exit('密钥 A %s and the symbol set size %s are not relatively prime. Choose a different 密钥.' % (keyA, len(SYMBOLS)))
 
-def encryptMessage(key, message):
+def 加密信息(密钥, 信息):
     '''
-    >>> encryptMessage(4545, 'The affine cipher is a type of monoalphabetic substitution cipher.')
+    >>> 加密信息(4545, 'The affine cipher is a type of monoalphabetic substitution cipher.')
     'VL}p MM{I}p~{HL}Gp{vp pFsH}pxMpyxIx JHL O}F{~pvuOvF{FuF{xIp~{HL}Gi'
     '''
-    keyA, keyB = getKeyParts(key)
-    checkKeys(keyA, keyB, 'encrypt')
+    keyA, keyB = 分解密钥(密钥)
+    检查密钥(keyA, keyB, '加密')
     cipherText = ''
-    for symbol in message:
+    for symbol in 信息:
         if symbol in SYMBOLS:
             symIndex = SYMBOLS.find(symbol)
             cipherText += SYMBOLS[(symIndex * keyA + keyB) % len(SYMBOLS)]
@@ -46,16 +34,16 @@ def encryptMessage(key, message):
             cipherText += symbol
     return cipherText
 
-def decryptMessage(key, message):
+def 解密信息(密钥, 信息):
     '''
-    >>> decryptMessage(4545, 'VL}p MM{I}p~{HL}Gp{vp pFsH}pxMpyxIx JHL O}F{~pvuOvF{FuF{xIp~{HL}Gi')
+    >>> 解密信息(4545, 'VL}p MM{I}p~{HL}Gp{vp pFsH}pxMpyxIx JHL O}F{~pvuOvF{FuF{xIp~{HL}Gi')
     'The affine cipher is a type of monoalphabetic substitution cipher.'
     '''
-    keyA, keyB = getKeyParts(key)
-    checkKeys(keyA, keyB, 'decrypt')
+    keyA, keyB = 分解密钥(密钥)
+    检查密钥(keyA, keyB, '解密')
     plainText = ''
-    modInverseOfkeyA = cryptoMath.findModInverse(keyA, len(SYMBOLS))
-    for symbol in message:
+    modInverseOfkeyA = 密码数学.求模逆(keyA, len(SYMBOLS))
+    for symbol in 信息:
         if symbol in SYMBOLS:
             symIndex = SYMBOLS.find(symbol)
             plainText += SYMBOLS[(symIndex - keyB) * modInverseOfkeyA % len(SYMBOLS)]
@@ -63,12 +51,26 @@ def decryptMessage(key, message):
             plainText += symbol
     return plainText
 
-def getRandomKey():
+def 随机密钥():
     while True:
         keyA = random.randint(2, len(SYMBOLS))
         keyB = random.randint(2, len(SYMBOLS))
-        if cryptoMath.gcd(keyA, len(SYMBOLS)) == 1:
+        if 密码数学.最小公约数(keyA, len(SYMBOLS)) == 1:
             return keyA * len(SYMBOLS) + keyB
+
+def main():
+    信息 = "message"#input('输入原始信息: ')
+    密钥 = 8848#int(input('输入密钥 [2000 - 9000]: '))
+    模式 = "end"#input('需要加密请输入"E", 需要解密请输入"D" [encrypt/decrypt]: ')
+
+    if 模式.lower().startswith('e'):
+              模式 = '加密'
+              处理方式 = 加密信息
+    elif 模式.lower().startswith('d'):
+              模式 = '解密'
+              处理方式 = 解密信息
+    信息 = 处理方式(密钥, 信息)
+    print('\n{处理}后的信息: \n{新信息}'.format(处理 = 模式.title(), 新信息 = 信息))
 
 if __name__ == '__main__':
     import doctest
