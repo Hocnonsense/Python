@@ -74,9 +74,9 @@ def 是素数(随机数):
         return 素数检验(随机数)
 
 #def generateLargePrime
-def 产生大素数(大小 = 1024):
+def 产生大素数(长度 = 1024):
     while True:
-        随机数 = random.randrange(2 ** (大小 - 1), 2 ** (大小))
+        随机数 = random.randrange(2 ** (长度 - 1), 2 ** (长度))
         if 是素数(随机数):
             return 随机数
 
