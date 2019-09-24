@@ -1,7 +1,7 @@
 import os
 import random
 import sys
-import rabin_miller as rabinMiller, cryptomath_module as cryptoMath
+import 素数检验 as 素数, 密码数学模块 as 密码数学
 
 min_primitive_root = 3
 
@@ -29,10 +29,10 @@ def primitiveRoot(p_val):
 
 def generateKey(keySize):
     print('Generating prime p...')
-    p = rabinMiller.generateLargePrime(keySize)  # select large prime number.
+    p = 素数.产生大素数(keySize)  # select large prime number.
     e_1 = primitiveRoot(p)  # one primitive root on modulo p.
     d = random.randrange(3, p)  # private_key -> have to be greater than 2 for safety.
-    e_2 = cryptoMath.findModInverse(pow(e_1, d, p), p)
+    e_2 = 密码数学.求模逆(pow(e_1, d, p), p)
 
     publicKey = (keySize, e_1, e_2, p)
     privateKey = (keySize, d)
