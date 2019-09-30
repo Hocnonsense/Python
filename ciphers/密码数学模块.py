@@ -1,10 +1,12 @@
 def 最小公约数(a, b):
     """
         使用辗转相除法, 取最小公约数
+        默认 a<b
     """
     while a != 0:
         a, b = b % a, a
     return b
+gcd = 最小公约数
 
 def 求模逆(a, m):
     """
