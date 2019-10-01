@@ -1,5 +1,4 @@
 """
-
 Hill Cipher:
     下面定义的类‘Hill加密’实现Hill密码算法。
     Hill密码用到了现代线性代数。
