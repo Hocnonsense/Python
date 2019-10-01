@@ -31,6 +31,7 @@ def 求模逆(a, m):
     if 最小公约数(a, m) != 1:
         return None
     else:
+        # @Haor: delete 'u2' and 'v2'
         u1, u3 = 1, a                                               # u1, u2, u3 = 1, 0, a
         v1, v3 = 0, m                                               # v1, v2, v3 = 0, 1, m
         while v3 != 0:
