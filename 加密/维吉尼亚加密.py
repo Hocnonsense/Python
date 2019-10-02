@@ -41,7 +41,7 @@ def 解密(密钥, 信息):
     '''
     return translateMessage(密钥, 信息, '解密')
 
-def 维吉尼亚密码():
+def 维吉尼亚加密():
     信息 = input('输入信息: ')
     密钥 = input('输入密钥 [字符串]: ')
     模式 = input('加密/解密 [e/d]: ')
@@ -55,10 +55,10 @@ def 维吉尼亚密码():
 
     print('\n%sed 信息:' % 模式.title())
     print(译文)
-vigenere_cipher = 维吉尼亚密码
+vigenere_cipher = 维吉尼亚加密
 
 if __name__ == '__main__':
-    维吉尼亚密码()
+    维吉尼亚加密()
 
 """
 如何破解Vigenere密码:
