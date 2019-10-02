@@ -1,4 +1,4 @@
-import os, sys
+import os
 import RSA密钥 as rkg
 
 默认片长 = 128
