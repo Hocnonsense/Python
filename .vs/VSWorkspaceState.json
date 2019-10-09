@@ -1,7 +1,6 @@
 {
   "ExpandedNodes": [
     "",
-    "\\ciphers",
     "\\compression",
     "\\compression\\image_data",
     "\\conversions",
@@ -9,8 +8,8 @@
     "\\data_structures\\queue",
     "\\data_structures\\stacks",
     "\\data_structures\\trie",
-    "\\布尔代数"
+    "\\加密"
   ],
-  "SelectedNode": "\\ciphers\\atbash.py",
+  "SelectedNode": "\\加密\\异或加密.py",
   "PreviewInSolutionExplorer": false
 }

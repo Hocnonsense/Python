@@ -9,13 +9,11 @@ class Letter:
     def __repr__(self):
         return f'{self.letter}:{self.freq}'
 
-
 class TreeNode:
     def __init__(self, freq, left, right):
         self.freq = freq
         self.left = left
         self.right = right
-
 
 def parse_file(file_path):
     """
@@ -60,9 +58,8 @@ def traverse_tree(root, bitstring):
 
 def huffman(file_path):
     """
-    Parse the file, build the tree, then run through the file
-    again, using the list of Letters to find and print out the
-    bitstring for each letter.
+    Parse the file, build the tree, then run through the file again, using the list of Letters to find and print out the bitstring for each letter.
+    解析文件，构建树，然后再次运行文件，使用Letters列表查找并打印出每个字母的位串。
     """
     letters_list = parse_file(file_path)
     root = build_tree(letters_list)
@@ -79,4 +76,5 @@ def huffman(file_path):
 
 if __name__ == "__main__":
     # pass the file path to the huffman function
+    # 不知输入类型(可能为文件名), 这个是哈弗曼编码. 
     huffman(sys.argv[1])
