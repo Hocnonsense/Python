@@ -1,15 +1,11 @@
 {
   "ExpandedNodes": [
     "",
-    "\\compression",
-    "\\compression\\image_data",
-    "\\conversions",
     "\\data_structures",
-    "\\data_structures\\queue",
-    "\\data_structures\\stacks",
-    "\\data_structures\\trie",
-    "\\加密"
+    "\\data_structures\\binary_tree",
+    "\\加密",
+    "\\进制转换_conversions"
   ],
-  "SelectedNode": "\\加密\\异或加密.py",
+  "SelectedNode": "\\data_structures\\binary_tree\\avl_tree.py",
   "PreviewInSolutionExplorer": false
 }

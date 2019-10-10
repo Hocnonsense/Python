@@ -4,32 +4,17 @@ class Node: # This is the Class Node with constructor that contains data variabl
         self.left = None
         self.right = None
 
-def display(tree): #In Order traversal of the tree
-
-    if tree is None: 
-        return
-
-    if tree.left is not None:
+def display(tree): # 显示树
+    if tree is not None: 
         display(tree.left)
-
-    print(tree.data)
-
-    if tree.right is not None:
+        print(tree.data)
         display(tree.right)
 
-    return
-
-def depth_of_tree(tree): #This is the recursive function to find the depth of binary tree.
+def depth_of_tree(tree): # 树的深度.
     if tree is None:
         return 0
     else:
-        depth_l_tree = depth_of_tree(tree.left)
-        depth_r_tree = depth_of_tree(tree.right)
-        if depth_l_tree > depth_r_tree:
-            return 1 + depth_l_tree
-        else:
-            return 1 + depth_r_tree
-
+        return max(depth_of_tree(tree.left), depth_of_tree(tree.right)) + 1
 
 def is_full_binary_tree(tree): # This functions returns that is it full binary tree or not?
     if tree is None:
@@ -41,8 +26,7 @@ def is_full_binary_tree(tree): # This functions returns that is it full binary t
     else:
         return False
 
-
-def main(): # Main func for testing.
+def basic_binary_tree(): # basic_binary_tree func for testing.
     tree = Node(1)
     tree.left = Node(2)
     tree.right = Node(3)
@@ -52,12 +36,11 @@ def main(): # Main func for testing.
     tree.right.left = Node(7)
     tree.right.left.left = Node(8)
     tree.right.left.left.right = Node(9)
-
     print(is_full_binary_tree(tree))
     print(depth_of_tree(tree))
     print("Tree is: ")
     display(tree)
-
+基本二叉树 = basic_binary_tree
 
 if __name__ == '__main__':
-    main()
+    basic_binary_tree()

@@ -37,6 +37,9 @@ class my_queue:
         return self.head == self.tail
 
 class my_node:
+    """
+        二叉树的节点: 自身(包括数据, 左孩子, 右孩子, 高度
+    """
     def __init__(self,data):
         self.data = data
         self.left = None
@@ -72,9 +75,9 @@ class AVLtree:
         self.root = None
         
     def del_node(self,data):
-        print("delete:"+str(data))
+        print("去除: "+str(data))
         if self.root is None:
-            print("Tree is empty!")
+            print("树空了!")
             return
         self.root = del_node(self.root,data)
     
@@ -124,67 +127,101 @@ class AVLtree:
             return
 
     def insert(self,data):
-        print("insert:"+str(data))
+        print("插入: "+str(data))
         self.root = insert_node(self.root, data)
 
-def my_max(a,b):
-    if a > b:
-        return a
-    return b
+def getheight(node):
+    if node is None:
+        return 0
+    else:
+        return node.getheight()
 
+def recheck_hight(node):
+    left, right = getheight(node.getright()), getheight(node.getleft())
+    if left > right:
+        height =  left + 1
+    else:
+        height = right + 1
+    node.setheight(height)
+#
 def leftrotation(node):
     r'''
-            A                      B
-           / \                    / \
-          B   C                  Bl  A
-         / \       -->          /   / \
-        Bl  Br                 UB Br  C
-       /
-     UB
-  
+        如图:
+          +----A-+        +--B---+
+          |      |        |      |
+       +--B-+    C     +--Bl   +-A-+
+       |    |      --> |       |   |
+    +--Bl   Br         UB      Br  C
+    | 
+    UB
     UB = unbalanced node  
     '''
-    print("left rotation node:",node.getdata())
-    ret = node.getleft()
-    node.setleft(ret.getright())
-    ret.setright(node)
-    h1 = my_max(getheight(node.getright()),getheight(node.getleft())) + 1
-    node.setheight(h1)
-    h2 = my_max(getheight(ret.getright()),getheight(ret.getleft())) + 1         
-    ret.setheight(h2)
+    print("左旋: ",node.getdata())
+    ret = node.getleft()    # B
+    node.setleft(ret.getright())    # A.left: B -> Br
+    ret.setright(node)  # B.right: Br -> A
+    recheck_hight(node)
+    recheck_hight(ret)
     return ret
 
 def rightrotation(node):
     '''
-        a mirror symmetry rotation of the leftrotation
+        左旋的逆过程
     '''
-    print("right rotation node:",node.getdata())
+    print("右旋: ",node.getdata())
     ret = node.getright()
     node.setright(ret.getleft())
     ret.setleft(node)
-    h1 = my_max(getheight(node.getright()),getheight(node.getleft())) + 1
-    node.setheight(h1)
-    h2 = my_max(getheight(ret.getright()),getheight(ret.getleft())) + 1         
-    ret.setheight(h2)
+    recheck_hight(node)
+    recheck_hight(ret)
     return ret
 
 def rlrotation(node):
     r'''
-            A              A                    Br      
-           / \            / \                  /  \
-          B   C    RR    Br  C       LR       B    A
-         / \       -->  /  \         -->    /     / \
-        Bl  Br         B   UB              Bl    UB  C  
-             \        /
-             UB     Bl
+        如图:
+       +-------A-+           +-----A-+          +-Br----+
+       |         |           |       |          |       |
+    +--B-+       C         +-Br-+    C       +--B    +--A-+
+    |    |         -RR->   |    |      -LR-> |       |    |
+    Bl   Br-+            +-B    UB           Bl      UB   C
+            |            |
+            UB           Bl
     RR = rightrotation   LR = leftrotation
     '''
+    print("先", end= "")
     node.setleft(rightrotation(node.getleft()))
+    print("后", end= "")
     return leftrotation(node)
 
 def lrrotation(node):
+    print("先", end= "")
     node.setright(leftrotation(node.getright()))
+    print("后", end= "")
     return rightrotation(node)
+
+def insert_node(node, data):
+    if node is None:    # 空则插入此数据并返回
+        return my_node(data)
+    elif data < node.getdata():
+        node.setleft(insert_node(node.getleft(),data))  # 在左边添加新节点
+        if getheight(node.getleft()) - getheight(node.getright()) == 2: # 发现不平衡
+            if data < node.getleft().getdata(): 
+                # assert getheight(node.getleft().getleft()) > getheight(node.getleft().getright())
+                node = leftrotation(node)   # 新节点是原左孩子的左孩子
+            else:
+                # assert getheight(node.getleft().getleft()) < getheight(node.getleft().getright())
+                node = rlrotation(node)     # 新节点是左孩子的右孩子
+    else:
+        node.setright(insert_node(node.getright(),data))
+        if getheight(node.getright()) - getheight(node.getleft()) == 2:
+            if data < node.getright().getdata():
+                # assert getheight(node.getright().getright()) < getheight(node.getright().getleft())
+                node = lrrotation(node)
+            else:
+                # assert getheight(node.getright().getright()) > getheight(node.getright().getleft())
+                node = rightrotation(node)
+    recheck_hight(node)
+    return node
 
 def getRightMost(root):
     while root.getright() is not None:
@@ -197,83 +234,66 @@ def getLeftMost(root):
     return root.getdata()
 
 def del_node(root,data):
-    if root.getdata() == data:
-        if root.getleft() is not None and root.getright() is not None:
-            temp_data = getLeftMost(root.getright())
-            root.setdata(temp_data)
-            root.setright(del_node(root.getright(),temp_data))
-        elif root.getleft() is not None:
-            root = root.getleft()
-        else:
-            root = root.getright()
-    elif root.getdata() > data:
-        if root.getleft() is None:
-            print("No such data")
+    if root.getdata() == data:  # 本节点即为所求
+        if root.getleft() is not None and root.getright() is not None:  # 该节点的两个子节点都非空
+            temp_data = getLeftMost(root.getright())    # 取出右孩子最左 (小) 的节点
+            root.setdata(temp_data) # 设为该节点的 data
+            root.setright(del_node(root.getright(),temp_data))  # 删除移动前的 data
+        elif root.getleft() is not None:    # 没有右孩子
+            root = root.getleft()   # 直接把左孩子提到自己的位置
+        else:   # 没有左孩子
+            root = root.getright()  # 直接把右孩子提到自己的位置
+    elif root.getdata() > data: # data 比本节点大
+        if root.getleft() is None:  # 没有比自己大的节点
+            print("无此数据:", data)
             return root
-        else:
-            root.setleft(del_node(root.getleft(),data))
-    elif root.getdata() < data:
-        if root.getright() is None:
+        else:   # 有比自己大的节点
+            root.setleft(del_node(root.getleft(), data))    # 过去删除并更新自己
+    elif root.getdata() < data: # data 比本节点小
+        if root.getright() is None: # 没有比自己小的节点
+            print("无此数据:", data)
             return root
-        else:
-            root.setright(del_node(root.getright(),data))
+        else:   # 有比自己小的节点
+            root.setright(del_node(root.getright(), data))  #过去删除并更新自己
+
     if root is None:
         return root
-    if getheight(root.getright()) - getheight(root.getleft()) == 2:
-        if getheight(root.getright().getright()) > getheight(root.getright().getleft()):
-            root = rightrotation(root)
-        else:
-            root = lrrotation(root)
-    elif getheight(root.getright()) - getheight(root.getleft()) == -2:
-        if getheight(root.getleft().getleft()) > getheight(root.getleft().getright()):
-            root = leftrotation(root)
-        else:
-            root = rlrotation(root)
-    height = my_max(getheight(root.getright()),getheight(root.getleft())) + 1
-    root.setheight(height)
-    return root
-
-def getheight(node):
-    if node is None:
-        return 0
     else:
-        return node.getheight()
-#
-def insert_node(node, data):
-    if node is None:
-        return my_node(data)
-    elif data < node.getdata():
-        node.setleft(insert_node(node.getleft(),data))
-        if getheight(node.getleft()) - getheight(node.getright()) == 2: #an unbalance detected
-            if data < node.getleft().getdata():       #new node is the left child of the left child
-                node = leftrotation(node)
+        if getheight(root.getleft()) - getheight(root.getright()) == 2:
+            if getheight(root.getleft().getleft()) > getheight(root.getleft().getright()):
+                root = leftrotation(root)
             else:
-                node = rlrotation(node)             #new node is the right child of the left child
-    else:
-        node.setright(insert_node(node.getright(),data))
-        if getheight(node.getright()) - getheight(node.getleft()) == 2:
-            if data < node.getright().getdata():
-                node = lrrotation(node)
+                root = rlrotation(root)
+        elif getheight(root.getright()) - getheight(root.getleft()) == 2: # 发现不平衡, 右边过高
+            if getheight(root.getright().getright()) > getheight(root.getright().getleft()):
+                root = rightrotation(root)
             else:
-                node = rightrotation(node)
-    h1 = my_max(getheight(node.getright()),getheight(node.getleft())) + 1
-    node.setheight(h1)
-    return node
+                root = lrrotation(root)
+        recheck_hight(root)
+        return root
 
-def main():
+def avl_tree():
     t = AVLtree()
     t.traversale()
     l = list(range(10))
-    random.shuffle(l)
+    l = [#1, 2, 3, 4, ]  # 5, 2, 7, 1, 3, 6, 8, 4, 9] # 2, 0, 7, 6, 9, 3, 5, 1, 4, 8]  # random.shuffle(l) #
+                                                            33,                              
+                                        20,                                     46,          
+                            12,                     28,                 41,             51,  
+                    7,              17,         25,     31,         38,     44,     49,  53, 
+                4,      10,     15,  19,    23,  27, 30, 32,    36,  40, 43, 45, 48, 50, 52, 
+            2,    6,  9, 11, 13, 16, 18, 22, 24, 26, 29,     35, 37, 39, 42,     47, 
+          1,  3,  5,  8,     14,         21,                 34, 
+          0, ]
     for i in l:
         t.insert(i)
         t.traversale()
-    input()
-        
     random.shuffle(l)
+    #l = [1, ]   # 9, 1]
     for i in l:
         t.del_node(i)
         t.traversale()
-        
+平衡二叉搜索树 = avl_tree
+
 if __name__ == "__main__":
-    main()
+    avl_tree()
