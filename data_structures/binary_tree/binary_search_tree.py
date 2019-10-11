@@ -161,7 +161,7 @@ def postOrder(curr_node):
         nodeList = postOrder(curr_node.getleft()) + postOrder(curr_node.getright()) + [curr_node]
     return nodeList
 
-def testBinarySearchTree():
+def binary_search_tree():
     r'''
     Example
                   8
@@ -200,6 +200,7 @@ def testBinarySearchTree():
         print(t)
 
     t.getNode(6)
+二叉搜索树 = binary_search_tree
 
 if __name__ == "__main__":
-    testBinarySearchTree()
+    binary_search_tree()
