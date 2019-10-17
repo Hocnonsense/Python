@@ -684,7 +684,7 @@ def pytests():
     assert test_tree_traversal()
     assert test_tree_chaining()
 
-def main():
+def red_black_tree():
     # pytests()
     print_results("左右旋测试", test_rotations())
     print_results("插入测试", test_insert())
@@ -696,6 +696,7 @@ def main():
     print("检查树的平衡性...\n稍等片刻.")
     test_insertion_speed()
     print("完成!")
+红黑树 = red_black_tree
 
 if __name__ == "__main__":
-    main()
+    red_black_tree()
