@@ -51,27 +51,25 @@ class SegmentTree:
             q2 = self.__query(self.__right(idx), mid + 1, r, a, b)
             return max(q1, q2)  # 取最大值
 
-    def query(self, a, b):
-        return self.__query(1, 0, self.N - 1, a - 1, b - 1)
-
     def __update(self, idx, l, r, a, b, val): # update(1, 1, N, a, b, v) for update val v to [a,b]
-        if r < a or l > b:
-            return True
+        if b<l or r<a:  # 不在给出的区间中
+            pass
         elif l == r :
             self.st[idx] = val
-            return True
         else:
             mid = (l+r)//2
             self.__update(self.__left(idx), l, mid, a, b, val)
             self.__update(self.__right(idx), mid+1, r, a, b, val)
             self.st[idx] = max(self.st[self.__left(idx)] , self.st[self.__right(idx)])
-            return True
+
+    def query(self, a, b):
+        return self.__query(1, 0, self.N - 1, a - 1, b - 1)
 
     def update(self, a, b, val):
         """
             将区间[a,b]的所有值都变为val
         """
-        return self.__update(1, 0, self.N - 1, a - 1, b - 1, val)
+        self.__update(1, 0, self.N - 1, a - 1, b - 1, val)
 
     def showData(self):
         showList = list()
